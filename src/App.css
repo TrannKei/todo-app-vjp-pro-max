@@ -1,38 +1,136 @@
-.App {
-  text-align: center;
+.header,
+.left-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  width: 50vw;
+  justify-content: space-between;
+  margin: 200px auto 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.left-header {
+  width: 30%;
+  justify-content: space-between;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.calender {
+  border: 5px solid #3D82EB;
+  width: 70px;
+  height: 70px;
+  border-radius: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* justify-content: space-between; */
 }
 
-.App-link {
-  color: #61dafb;
+.month {
+  width: 100%;
+  text-align: center;
+  color: aliceblue;
+  padding-bottom: 5px;
+  background-color: #3D82EB;
+  margin: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.date {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #3D82EB;
+}
+
+.right-header {
+  position: relative;
+
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 150px;
+  text-align: center;
+  color: #C4C4C4;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 5px 0px 5px 5px;
+  font-size: 24px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.shadow {
+  background: #FFFFFF;
+  border-bottom: 0;
+  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 5px 5px 0px 0px;
+}
+
+.trip-dots>svg {
+  font-size: 3rem;
+}
+
+.dropdown>a {
+  cursor: pointer;
+}
+
+.add-todo-container {
+  width: 50vw;
+  margin: 0 auto;
+  background-color: #89C3D6;
+}
+
+.add-todo-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #A3E8FF;
+  margin: 10px 10px;
+}
+
+.left-task,
+.right-task {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.left-task {
+  width: 65%;
+}
+
+.right-task {
+  width: 25%;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+
+.left-task>h3 {
+  margin-left: 10px;
+}
+.add-todo-input{
+  width: 60%;
+  margin: 20px auto;
+  padding-top: 20px;
+
+}
+.with-60{
+  width: 100%;
+  
+}
+.input-title{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.input-title > p {
+  margin-left: 20px ;
+  color: #3D82EB;
+  font-size: larger;
 }
