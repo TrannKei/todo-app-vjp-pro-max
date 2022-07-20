@@ -214,6 +214,7 @@ input[type=text]:disabled {
 .input-edit:focus {
   outline: none;
   border: 0;
+  border-bottom: 1px solid #3D82EB;
 
 }
 .completed-item{

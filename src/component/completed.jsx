@@ -12,20 +12,9 @@ export const Done = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
 
-    // const [count, setCount] = useState(false)
-    // useEffect(()=>{
-    //     function checkCount(){
-    //        const check = data.map((item)=>{
-    //             if(item.completed = true){
-    //                 setCount(true)
-    //             }
-    //         })
-    //         console.log(count);
 
-    //        }
-    //     checkCount()
-    // },[])
 
+   
 
     const handleFilter = (event) => {
         const searchWord = event.target.value;
@@ -74,16 +63,18 @@ export const Done = () => {
                             return (
                                 <>
                                     {item.completed &&
-                                        <div key={item.id} className="completed-item">
-                                            <div className='left-done'>
-                                                <CheckCircleOutlinedIcon />
-                                                <h3>{item.todo}</h3>
-                                            </div>
-                                            <div className='right-done'>
-                                                <p>Đã hoàn thành lúc</p> <p>{item.time} | {item.date}</p>
-                                            </div>
+                                            <div key={item.id} className="completed-item">
+                                                
+                                                <div className='left-done'>
+                                                    <CheckCircleOutlinedIcon />
+                                                    <h3>{item.todo}</h3>
+                                                </div>
+                                                <div className='right-done'>
+                                                    <p>Đã hoàn thành lúc</p> <p>{item.time} | {item.date}</p>
+                                                </div>
 
-                                        </div>
+                                      
+                                            </div>
                                     }
 
                                 </>

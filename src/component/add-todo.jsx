@@ -37,7 +37,7 @@ export const AddTodo = () => {
     const time = SetTime()
     const [data, setData] = useContext(FullData)
     const [show, setShow] = useState(true)
-    const [input, setInput] = useState()
+    const [input, setInput] = useState("")
 
     function handleChange(e) {
         setInput(e.target.value)
@@ -45,7 +45,7 @@ export const AddTodo = () => {
     }
 
     const Handle = () => {
-        if (input != "") {
+        if (input !== "") {
             const beforeData = {
                 id: Math.floor(Math.random() * 10000) + 1,
                 todo: input,
