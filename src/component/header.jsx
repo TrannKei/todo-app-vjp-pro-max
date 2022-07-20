@@ -13,7 +13,7 @@ export const Header = () => {
     }
     const hideDropDown =()=>{
         setShow(false)
-        console.log(show);
+        
     }
    
     return (

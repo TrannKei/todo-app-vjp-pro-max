@@ -32,13 +32,13 @@ export const AddTodo = () => {
         },
       }));
     
-
+    const [count, setCount, ...rest] = useContext(FullData)
     const date = SetDate()
     const time = SetTime()
     const [data, setData] = useContext(FullData)
     const [show, setShow] = useState(true)
     const [input, setInput] = useState("")
-
+    
     function handleChange(e) {
         setInput(e.target.value)
 
@@ -58,11 +58,10 @@ export const AddTodo = () => {
             }
             setData([...data, beforeData])
         }
-        // else setData([...data])
-        // console.log(data);
+        
         setInput('')
         showAdd()
-        // console.log(show);
+     
     }
 
 
@@ -78,14 +77,14 @@ export const AddTodo = () => {
                 item.completed = !item.completed
                 item.date = date
                 item.time = time
-
+             
                 
             }
             return item
 
         }
         )
-
+        
         setData(updateChecked)
         // console.log(data);
     }

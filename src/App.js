@@ -15,7 +15,7 @@ function App() {
   const date = SetDate()
   const [data, setData] = useState([{}])
   const time = SetTime()
-  
+  const [count, setCount] = useState(0)
   useEffect(() => {
 
     async function getDataAPI() {
@@ -45,7 +45,7 @@ function App() {
   }, [])
 
   return (
-    <FullData.Provider value={[data, setData]}>
+    <FullData.Provider value={[data, setData, count, setCount]}>
       <BrowserRouter>
 
         <Header />

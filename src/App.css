@@ -201,6 +201,7 @@ input[type=text]:disabled {
   color: black;
   font-weight: 600;
   border: 0;
+  border-bottom: 1px solid #3D82EB;
 }
 
 .note {
@@ -217,6 +218,7 @@ input[type=text]:disabled {
   border-bottom: 1px solid #3D82EB;
 
 }
+
 .completed-item{
   display: flex;
   flex-direction: row;
