@@ -45,7 +45,7 @@ export const AddTodo = () => {
     }
 
     const Handle = () => {
-        if (input !== "") {
+        if (input != "") {
             const beforeData = {
                 id: Math.floor(Math.random() * 10000) + 1,
                 todo: input,
