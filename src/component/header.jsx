@@ -2,7 +2,6 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useState } from 'react';
 import { Outlet, Link, navigate, useNavigate } from 'react-router-dom'
 
-
 export const Header = () => {
     const navigate = useNavigate();
     const newDate = new Date()
@@ -12,6 +11,11 @@ export const Header = () => {
     const showDropDown = () =>{
         setShow(!show)
     }
+    const hideDropDown =()=>{
+        setShow(false)
+        console.log(show);
+    }
+   
     return (
         <>
             <div className="header">
@@ -20,18 +24,26 @@ export const Header = () => {
                         <p className='month'>Tháng {month}</p>
                         <p className='date'>{date}</p>
                     </div>
-                    <h1>TODAY</h1>
+                    <h1>VIỆC HÔM NAY CHỚ ĐỂ NGÀY MAI</h1>
                 </div>
-                <div className="right-header">
-                    <div className={!show?'trip-dots': 'trip-dots shadow'}>
-                        <MoreHorizIcon onClick={showDropDown}/>
+                <div className="right-header" onBlur={hideDropDown} tabIndex='1'>
+                    <div  
+                    className={!show?'trip-dots': 'trip-dots shadow'}>
+                       
+                        <MoreHorizIcon 
+                        
+                        onClick={showDropDown} 
+                       />
+                      
                     </div>
-                    {show && <div className='dropdown'>
-                        <a onClick={() => navigate('/todo')}>In Progress</a>
+                    {show && <div className='dropdown' onClick={showDropDown}>
+                        
+                        <a onClick={() => navigate('/todo')}>Đang làm</a> 
+                        
                         <hr ></hr>
-                        <a onClick={() => navigate('/completed')}>Completed</a>
+                        <a onClick={() => navigate('/completed')}>Đã hoàn thành</a>
                         <hr ></hr>
-                        <a onClick={() => navigate('/removed')}>Removed</a>
+                        <a onClick={() => navigate('/removed')}>Đã xóa</a>
                     </div>}
                 </div>
             </div>

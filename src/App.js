@@ -15,35 +15,42 @@ function App() {
   const date = SetDate()
   const [data, setData] = useState([{}])
   const time = SetTime()
+  
   useEffect(() => {
-    
-    async function getDataAPI(){
+
+    async function getDataAPI() {
       const getData = await fetch('https://dummyjson.com/todos')
-      .then(res => res.json())
-      .then(data => setData(data.todos))
+        .then(res => res.json())
+        .then(data => {
+          data.todos.map((item) => {
+            item.time = time;
+            item.date = date;
+            item.removed = false
+            // item.completed = false
+            item.disabled = true
+            return item
+          }
+          )
+          setData(data.todos)
+
+        })
       // .then(()=>{
-      //   const fake = data.map((item)=>{ 
-      //     item.time = time;
-      //     item.date = date;
-      //     item.removed = false
-      //     return item
-      //   })
-      //   setData(fake)
-        
+
       // })
-       
-      
+
+
     }
     getDataAPI()
-   
+
   }, [])
 
   return (
     <FullData.Provider value={[data, setData]}>
       <BrowserRouter>
-        
+
         <Header />
-        <Routes path="/" element={<Header />}>
+        
+        <Routes path="/" element={<AddTodo />}>
           <Route path="todo" element={<AddTodo />} ></Route>
           <Route path="completed" element={<Done />} ></Route>
           <Route path="removed" element={<Removed />} ></Route>

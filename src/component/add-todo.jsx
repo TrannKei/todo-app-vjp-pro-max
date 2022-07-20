@@ -11,23 +11,27 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Radio from '@mui/material/Radio';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
+
+
+
 import { SetDate, SetTime } from './set-time';
 import { useContext, useState, useEffect } from "react"
 import { FullData } from "../App"
+import { toBeEnabled } from '@testing-library/jest-dom/dist/matchers';
 export const AddTodo = () => {
-
-    // useEffect(()=>{
-    //     function changeData(){
-    //         const fake = data.map((item)=>{ 
-    //           item.time = time;
-    //           item.date = date;
-    //           item.removed = false
-    //           return item
-    //         })
-    //         setData(fake)
-    //       }
-    //     changeData()
-    // },[])
+    const LightTooltip = styled(({ className, ...props }) => (
+        <Tooltip {...props} classes={{ popper: className }} />
+      ))(({ theme }) => ({
+        [`& .${tooltipClasses.tooltip}`]: {
+          backgroundColor: theme.palette.common.white,
+          color: 'rgba(0, 0, 0, 0.87)',
+          boxShadow: theme.shadows[1],
+          fontSize: 11,
+        },
+      }));
+    
 
     const date = SetDate()
     const time = SetTime()
@@ -41,7 +45,7 @@ export const AddTodo = () => {
     }
 
     const Handle = () => {
-        if (input !== "") {
+        if (input != "") {
             const beforeData = {
                 id: Math.floor(Math.random() * 10000) + 1,
                 todo: input,
@@ -49,12 +53,14 @@ export const AddTodo = () => {
                 isEdit: false,
                 del: false,
                 date: date,
-                time: time
+                time: time,
+                disabled: true
             }
             setData([...data, beforeData])
-        } else 
+        }
+        // else setData([...data])
         // console.log(data);
-        // setInput('')
+        setInput('')
         showAdd()
         // console.log(show);
     }
@@ -64,12 +70,16 @@ export const AddTodo = () => {
         setShow(!show)
     }
 
+    
     const handleCompleted = (id) => {
         const updateChecked = data.map((item) => {
+            // let count = 0
             if (item.id === id) {
                 item.completed = !item.completed
                 item.date = date
                 item.time = time
+
+                
             }
             return item
 
@@ -94,47 +104,134 @@ export const AddTodo = () => {
         console.log(data);
     }
 
+    // const handelTarget = (id) => {
+    //     const targetItem = data.filter((item) => {
+    //         if (item.id === id) {
+    //             item.target = !item.target
+    //         } else item.target = false
+    //         return item
+    //     })
+    //     setData(targetItem)
+    // }
+
+
+    const [inputEdit, setInputEdit] = useState()
+    const handleKeyDown = (event, id) => {
+        if (event.key === 'Enter' && inputEdit) {
+            const onClickEdit = data.map((item) => {
+
+                if (item.id === id) {
+                    // item.isEdit = false
+                    item.todo = inputEdit
+                    item.disabled = !item.disabled
+                    item.target = !item.target
+                    setInput("")
+                }
+
+                return item
+            })
+            setData(onClickEdit)
+
+        }
+
+    }
+    const isEdit = (id) => {
+        const editItem = data.filter((item) => {
+            if (item.id === id) {
+                item.disabled = !item.disabled
+                item.target = !item.target
+            } else {
+                item.disabled = true
+                item.target = false
+            }
+
+            return item
+
+        })
+        setData(editItem)
+
+
+    }
+
     return (
         <div className='add-todo-container'>
-            <div className='add-todo-input' >
-                {show ? <div onClick={showAdd} className='input-title' >
-                    <ControlPointIcon color="primary" />
-                    <p>Thêm việc cần làm</p>
-                </div> :
-                    <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <TextField id="input-with-sx" label="With sx" variant="standard" onChange={handleChange} className="with-60" />
-                        <PlaylistAddIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} onClick={Handle} />
-                    </Box>}
+            <div className='with-100'>
+                <div className='add-todo-input' >
+                    {show ? <div onClick={showAdd} className='input-title' >
+                    
+                        <ControlPointIcon 
+                        color="primary" 
+                        className="hover-svg"
+                        />
+                       
+                        <p>Thêm việc cần làm</p>
+                    </div> :
+                        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                            <TextField id="input-with-sx" 
+                            label="Thêm" 
+                            variant="standard" 
+                            onChange={handleChange} 
+                            className="with-60" />
+                            <LightTooltip title="Thêm">
+                            <PlaylistAddIcon 
+                            sx={{ color: 'action.active', mr: 1, my: 0.5 }} 
+                            onClick={Handle} className='hover-blue hover-svg' />
+                             </LightTooltip>
+                        </Box>}
+                </div>
             </div>
-            {data.map((item) => {
-                return (
-                    <>
-                        <div >
-                        {(!item.completed && !item.removed) &&
-                            <div key={item.id} className='add-todo-item'>
-                                <div className='left-task'>
-                                    <Radio
-                                        onChange={() => handleCompleted(item.id)}
-                                    />
-                                    <h3>{item.todo}</h3>
-                                </div>
-                                <div className='right-task'>
-                                    <div className='date-time'>
-                                        <p>Khởi tạo lúc: {item.time}</p>
-                                        <p>{item.date}</p>
+            <div >
+                {data.map((item) => {
+                    return (
+                        <>
+                            <div >
+                                {(!item.completed && !item.removed) &&
+                                    <div key={item.id}
+                                        className={!item.target ? 'add-todo-item' : 'add-todo-item box-shadow'}
+                                        // onClick={() => handelTarget(item.id)}
+                                        onDoubleClick={() => isEdit(item.id)}
+                                    >
+
+                                        <div className='left-task'>
+                                        <LightTooltip title="Hoàn thành">
+                                            <Radio
+                                                onChange={() => handleCompleted(item.id)}
+                                            />
+                                             </LightTooltip>
+                                            {/* <h3>{item.todo}</h3> */}
+                                            <input
+                                                type='text'
+                                                defaultValue={item.todo}
+                                                onKeyDown={(event) => handleKeyDown(event, item.id)}
+                                                onChange={(event) => setInputEdit(event.target.value)}
+                                                disabled={item.disabled}
+                                                className="input-edit"
+                                            />
+                                        </div>
+                                        <div className='right-task'>
+                                            <div className='date-time'>
+                                                <p>Khởi tạo lúc: </p>
+                                                <p>{item.time} | {item.date}</p>
+
+                                            </div>
+                                            <LightTooltip title="Xóa">
+                                                <HighlightOffIcon
+                                                    style={{ color: '#c62828' }}
+                                                    onClick={() => deleteItem(item.id)}
+                                                    className="hover-svg"
+                                                />
+                                                </LightTooltip>
+                                            
+                                        </div>
                                     </div>
-                                    <HighlightOffIcon
-                                        style={{ color: '#c62828' }}
-                                        onClick={() => deleteItem(item.id)}
-                                    />
-                                </div>
+                                }
                             </div>
-                        }
-                        </div>
-                    </>
-                )
-            }
-            )}
+                        </>
+                    )
+                }
+                )}
+            </div>
+            <div className="note"><p>* Nhấp đôi để chỉnh sửa | Enter để xác nhận</p></div>
         </div>
     )
 }
