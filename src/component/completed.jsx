@@ -8,13 +8,13 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 
 export const Done = () => {
 
-    const [data, setData] = useContext(FullData)
+    const { data, setData, count } = useContext(FullData)
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
 
 
 
-   
+
 
     const handleFilter = (event) => {
         const searchWord = event.target.value;
@@ -34,7 +34,7 @@ export const Done = () => {
         setFilteredData([]);
         setWordEntered("");
     };
-
+    console.log(count);
     return (
         <>
             <div className="completed-container ">
@@ -57,14 +57,15 @@ export const Done = () => {
                         </Box>
                     </div>
                 </div>
-                {filteredData.length != 0 ?
-                    <div className="done">
-                        {filteredData.map((item) => {
-                            return (
-                                <>
-                                    {item.completed &&
+                {count != 0 ?
+                    <div>{filteredData.length != 0 ?
+                        <div className="done">
+                            {filteredData.map((item) => {
+                                return (
+                                    <>
+                                        {item.completed &&
                                             <div key={item.id} className="completed-item">
-                                                
+
                                                 <div className='left-done'>
                                                     <CheckCircleOutlinedIcon />
                                                     <h3>{item.todo}</h3>
@@ -73,36 +74,42 @@ export const Done = () => {
                                                     <p>Đã hoàn thành lúc</p> <p>{item.time} | {item.date}</p>
                                                 </div>
 
-                                      
+
                                             </div>
-                                    }
+                                        }
 
-                                </>
-                            )
-                        })}
-                    </div> :
-                    <>
-                        {data.map((item) => {
-                            return (
-                                <>
-                                    {item.completed &&
-                                        <div key={item.id} className="completed-item">
-                                            <div className='left-done'>
-                                                <CheckCircleOutlinedIcon />
-                                                <h3>{item.todo.toUpperCase()}</h3>
+                                    </>
+                                )
+                            })}
+                        </div> :
+                        <>
+                            {data.map((item) => {
+                                return (
+                                    <>
+                                        {item.completed &&
+                                            <div key={item.id} className="completed-item">
+                                                <div className='left-done'>
+                                                    <CheckCircleOutlinedIcon />
+                                                    <h3>{item.todo.toUpperCase()}</h3>
+                                                </div>
+                                                <div className='right-done'>
+                                                    <p>Đã hoàn thành lúc</p> <p>{item.time} | {item.date}</p>
+                                                </div>
+
                                             </div>
-                                            <div className='right-done'>
-                                                <p>Đã hoàn thành lúc</p> <p>{item.time} | {item.date}</p>
-                                            </div>
+                                        }
 
-                                        </div>
-                                    }
+                                    </>
+                                )
+                            })}
+                        </>
 
-                                </>
-                            )
-                        })}
-                    </>
+                    }</div> : 
+                    <div>
+                        <h3>Đã làm xong gì đâu mà check</h3>
+                        <h3>Nhấc mông lên mà làm đê</h3>
 
+                    </div>
                 }
             </div>
         </>

@@ -19,7 +19,7 @@ export const Removed = () => {
       }));
     
 
-    const [data, setData] = useContext(FullData)
+    const {data, setData} = useContext(FullData)
     const unRemoved=(id)=>{
         const undo = data.map((item) => {
             if (item.id === id) {

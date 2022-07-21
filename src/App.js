@@ -26,8 +26,9 @@ function App() {
             item.time = time;
             item.date = date;
             item.removed = false
-            // item.completed = false
+            item.completed = false
             item.disabled = true
+            item.isEdit = false
             return item
           }
           )
@@ -45,7 +46,7 @@ function App() {
   }, [])
 
   return (
-    <FullData.Provider value={[data, setData, count, setCount]}>
+    <FullData.Provider value={{data, setData, count, setCount}}>
       <BrowserRouter>
 
         <Header />

@@ -13,6 +13,7 @@ import Radio from '@mui/material/Radio';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 
 
 
@@ -23,22 +24,22 @@ import { toBeEnabled } from '@testing-library/jest-dom/dist/matchers';
 export const AddTodo = () => {
     const LightTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} />
-      ))(({ theme }) => ({
+    ))(({ theme }) => ({
         [`& .${tooltipClasses.tooltip}`]: {
-          backgroundColor: theme.palette.common.white,
-          color: 'rgba(0, 0, 0, 0.87)',
-          boxShadow: theme.shadows[1],
-          fontSize: 11,
+            backgroundColor: theme.palette.common.white,
+            color: 'rgba(0, 0, 0, 0.87)',
+            boxShadow: theme.shadows[1],
+            fontSize: 11,
         },
-      }));
-    
-    const [count, setCount, ...rest] = useContext(FullData)
+    }));
+
+
     const date = SetDate()
     const time = SetTime()
-    const [data, setData] = useContext(FullData)
+    const { data, setData, count, setCount } = useContext(FullData)
     const [show, setShow] = useState(true)
     const [input, setInput] = useState("")
-    
+
     function handleChange(e) {
         setInput(e.target.value)
 
@@ -58,10 +59,10 @@ export const AddTodo = () => {
             }
             setData([...data, beforeData])
         }
-        
+
         setInput('')
         showAdd()
-     
+
     }
 
 
@@ -69,7 +70,7 @@ export const AddTodo = () => {
         setShow(!show)
     }
 
-    
+
     const handleCompleted = (id) => {
         const updateChecked = data.map((item) => {
             // let count = 0
@@ -77,14 +78,14 @@ export const AddTodo = () => {
                 item.completed = !item.completed
                 item.date = date
                 item.time = time
-             
-                
+                setCount(count + 1)
+
             }
             return item
 
         }
         )
-        
+        console.log(count);
         setData(updateChecked)
         // console.log(data);
     }
@@ -103,15 +104,15 @@ export const AddTodo = () => {
         console.log(data);
     }
 
-    // const handelTarget = (id) => {
-    //     const targetItem = data.filter((item) => {
-    //         if (item.id === id) {
-    //             item.target = !item.target
-    //         } else item.target = false
-    //         return item
-    //     })
-    //     setData(targetItem)
-    // }
+    const handelTarget = (id) => {
+        const targetItem = data.filter((item) => {
+            if (item.id === id) {
+                item.target = !item.target
+            } else item.target = false
+            return item
+        })
+        setData(targetItem)
+    }
 
 
     const [inputEdit, setInputEdit] = useState()
@@ -124,6 +125,7 @@ export const AddTodo = () => {
                     item.todo = inputEdit
                     item.disabled = !item.disabled
                     item.target = !item.target
+                    // item.isEdit = true
                     setInput("")
                 }
 
@@ -133,12 +135,14 @@ export const AddTodo = () => {
 
         }
 
+
     }
     const isEdit = (id) => {
         const editItem = data.filter((item) => {
             if (item.id === id) {
                 item.disabled = !item.disabled
                 item.target = !item.target
+
             } else {
                 item.disabled = true
                 item.target = false
@@ -151,31 +155,39 @@ export const AddTodo = () => {
 
 
     }
-
+    // const showEdit=(id)=>{
+    //     const showEdit = data.filter((item)=>{
+    //         if (item.id === id){
+    //             item.hover = true
+    //         } else item.hover = false
+    //         return item
+    //     })
+    //     setData(showEdit)
+    // }
     return (
         <div className='add-todo-container'>
             <div className='with-100'>
                 <div className='add-todo-input' >
                     {show ? <div onClick={showAdd} className='input-title' >
-                    
-                        <ControlPointIcon 
-                        color="primary" 
-                        className="hover-svg"
+
+                        <ControlPointIcon
+                            color="primary"
+                            className="hover-svg"
                         />
-                       
+
                         <p>Thêm việc cần làm</p>
                     </div> :
                         <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                            <TextField id="input-with-sx" 
-                            label="Thêm" 
-                            variant="standard" 
-                            onChange={handleChange} 
-                            className="with-60" />
+                            <TextField id="input-with-sx"
+                                label="Thêm"
+                                variant="standard"
+                                onChange={handleChange}
+                                className="with-60" />
                             <LightTooltip title="Thêm">
-                            <PlaylistAddIcon 
-                            sx={{ color: 'action.active', mr: 1, my: 0.5 }} 
-                            onClick={Handle} className='hover-blue hover-svg' />
-                             </LightTooltip>
+                                <PlaylistAddIcon
+                                    sx={{ color: 'action.active', mr: 1, my: 0.5 }}
+                                    onClick={Handle} className='hover-blue hover-svg' />
+                            </LightTooltip>
                         </Box>}
                 </div>
             </div>
@@ -187,16 +199,17 @@ export const AddTodo = () => {
                                 {(!item.completed && !item.removed) &&
                                     <div key={item.id}
                                         className={!item.target ? 'add-todo-item' : 'add-todo-item box-shadow'}
-                                        // onClick={() => handelTarget(item.id)}
-                                        onDoubleClick={() => isEdit(item.id)}
+                                    onClick={() => handelTarget(item.id)}
+                                    // onMouseOver={()=> showEdit(item.id)}
+                                    // onDoubleClick={() => isEdit(item.id)}
                                     >
 
                                         <div className='left-task'>
-                                        <LightTooltip title="Hoàn thành">
-                                            <Radio
-                                                onChange={() => handleCompleted(item.id)}
-                                            />
-                                             </LightTooltip>
+                                            <LightTooltip title="Hoàn thành">
+                                                <Radio
+                                                    onChange={() => handleCompleted(item.id)}
+                                                />
+                                            </LightTooltip>
                                             {/* <h3>{item.todo}</h3> */}
                                             <input
                                                 type='text'
@@ -213,15 +226,18 @@ export const AddTodo = () => {
                                                 <p>{item.time} | {item.date}</p>
 
                                             </div>
+                                           
+                                            <LightTooltip title="Chỉnh sửa">
+                                                <DriveFileRenameOutlineIcon className="hover-svg" onClick={() => isEdit(item.id)} />
+                                            </LightTooltip>
                                             <LightTooltip title="Xóa">
                                                 <HighlightOffIcon
                                                     style={{ color: '#c62828' }}
                                                     onClick={() => deleteItem(item.id)}
                                                     className="hover-svg"
                                                 />
-                                                </LightTooltip>
-                                            
-                                        </div>
+                                            </LightTooltip>
+                             </div>
                                     </div>
                                 }
                             </div>
